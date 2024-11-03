@@ -2,12 +2,9 @@ const path = require('path');
 
 module.exports = {
     mode: 'production',
-    entry: './js/dashboard_main.js', // Ensure this file exists
+    entry: path.resolve(__dirname, './js/dashboard_main.js'), // Use a string for single entry
     output: {
-        filename: 'bundle.js',
         path: path.resolve(__dirname, 'public'),
-    },
-    resolve: {
-        extensions: ['.js'], // Specify the file types you want to resolve
+        filename: 'bundle.js',
     },
 };
