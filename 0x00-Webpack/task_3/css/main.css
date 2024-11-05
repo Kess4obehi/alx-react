@@ -1,0 +1,11 @@
+#logo {
+    width: 200px;
+    height: 200px;
+    background-image: url('../assets/holberton-logo.jpg');
+    background-size: cover; /* Ensures the image covers the element */
+}
+
+.counter-text {
+    text-align: right;
+    font-weight: bold;
+}
