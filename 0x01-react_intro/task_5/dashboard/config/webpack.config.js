@@ -1,64 +1,46 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  mode: 'development', // Set to 'development' or 'production'
+  entry: './src/index.js', // Entry point for your JavaScript code
   output: {
-    filename: 'bundle.js',
-    path: path.resolve('./dist'),
+    filename: 'bundle.js', // Output bundled file name
+    path: path.resolve(__dirname, 'dist'), // Output folder
   },
-  devtool: 'inline-source-map',
   devServer: {
-   hot: true,
-   open: true,
+    contentBase: path.join(__dirname, 'dist'),
+    hot: true, // Enable hot reloading
   },
-  mode: 'development',
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules|bower_components/,
-        use: { 
-            loader: 'babel-loader',
-            options: { 
-                presets: ['@babel/preset-env', '@babel/preset-react']
-            } 
-        }
-      },
-      {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"],
-      },
-      {
-        test: /\.(png|jpg|gif|svg)$/,
-        loader: 'file-loader',
-      },
-      {
-        test: /\.(gif|png|jpe?g|svg)$/,
-        use: [
-          'file-loader',
-          {
-            loader: 'image-webpack-loader',
-            options: {
-              mozjpeg: {
-                progressive: true,
-              },
-              optipng: {
-                enabled: false,
-              },
-              pngquant: {
-                quality: [0.65, 0.90],
-                speed: 4
-              },
-              gifsicle: {
-                interlaced: false,
-              },
-              webp: {
-                quality: 75
-              }
-            },
+        test: /\.(js|jsx)$/, // Handle both .js and .jsx files
+        exclude: /node_modules/, // Don't process node_modules
+        use: {
+          loader: 'babel-loader', // Use Babel to process the files
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react'],
           },
-        ]
+        },
       },
-    ]
-  }
+      {
+        test: /\.css$/, // Handle CSS files
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(png|jpg|gif)$/i, // Handle image files
+        use: ['image-webpack-loader', 'file-loader'],
+      },
+    ],
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'], // Allow imports without specifying the extension
+  },
+  devtool: 'inline-source-map', // For easier debugging
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './dist/index.html', // Template for the HTML file
+    }),
+  ],
 };
